@@ -9,9 +9,9 @@
 L'idée de ce projet m'est venue d'une vidéo formidable d'El JJ, vidéaste qui fait de la vulgarisation mathématique sur Youtube. Cette vidéo, intitulée [Deux (deux ?) minutes pour l'éléphant de Fermi & Neumann](https://www.youtube.com/watch?v=uazPP0ny3XQ), aborde les épicycles et la transformée de Fourier d'une façon réellement inédite. Véritable petit déclic pour moi, j'ai décidé de me rensigner plus. C'est une vidéo de 3Blue1Brown qui m'a convaincu que je pouvais, moi aussi, faire quelque chose pour démocratiser les concepts de mathématiques, physique ou SVT les plus beaux, étranges ou fascinants. J'ai commencé dans un premier temps à donner des cours de soutien en mathématiques. J'avais envie d'aborder le programme, avec ceux qui en avait besoin, d'une façon moins scolaire. J'ai donné mon premier cours sur les nombres complexes et les ensembles de Julia et Mandelbrot en Octobre 2019. J'ai cependant vite réalisé mes difficultés à enseigner ; je me suis beaucoup réfugié derrière des exercices et des dessins. Comme de bilan a été finalement positif, j'ai décidé de recommencer, en parlant des ondes, de leur superposition et de la transformée de Fourier.
 
 #### ID Card du projet
-
 **Nom du projet** : Learn Epicycles  
-**Format** : Site internet 
+**Format** : Site internet  
+**Langages et librairies utilisées** : HTML 5, CSS 3, JavaScript, P5.js.
 
 **Description** : 
 Le projet serait un site Internet permettant d'apprendre et de comprendre les _épicycles_ et la _transformée de Fourier_. Il s'agit de reprendre un point rapidement évoqué dans le programme de physique de Terminale, et de proposer une autre vision du phénomène. Au moyen d'exemples historiques et surtout d'une **aire de jeu** (canva), le site exposerait les nombreuses possibilités de la transformée de Fourier.
