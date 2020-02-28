@@ -10,11 +10,11 @@ var DEMI_HAUTEUR;
 
 var cercles = [];
 
-var précisionss = 10;
+var précision;
 var skip;
 
 function enregistrerDessin() {
-    if ((positions[positions.length - 1].x - mouseX) ^ 2 > 4) {
+    if ((pmouseX - mouseX) ^ 2 > 4) {
         text("user is moving", 200, 250);
         positions.push({
             x: mouseX,
@@ -41,7 +41,7 @@ function dessinerCercles() {
     var yPrecedent;
     var repetitions;
 
-    if (cercles.length > precision) {
+    if (cercles.length > precision && precision > 0) {
         repetitions = precision;
     } else {
         repetitions = cercles.length;
@@ -109,8 +109,8 @@ function transformeeDeFourier(x) {
         var im = 0;
         for (j = 0; j < x.length; j++) {
             var phi = (TWO_PI * i * j) / x.length;
-            re += (x[j].x - document.body.clientWidth/2) * cos(phi) + (x[j].y - document.body.clientHeight/2) * sin(phi);
-            im += (x[j].x - document.body.clientWidth/2) * -sin(phi) + (x[j].y - document.body.clientHeight/2) * cos(phi);
+            re += (x[j].x - document.body.clientWidth / 2) * cos(phi) + (x[j].y - document.body.clientHeight / 2) * sin(phi);
+            im += (x[j].x - document.body.clientWidth / 2) * -sin(phi) + (x[j].y - document.body.clientHeight / 2) * cos(phi);
         }
         re = re / x.length;
         im = im / x.length;
@@ -140,7 +140,7 @@ function setup() {
     fill(255);
 
     temps = 0;
-    precision = 10;
+    precision = 50;
     skip = 0;
 
     DEMI_LARGEUR = document.body.clientWidth / 2;
@@ -179,6 +179,11 @@ function draw() {
 
     } else {
         text("user is not drawing", 200, 200);
+        if (precision == 0) {
+            text("precision maximum", 200, 250);
+        } else {
+            text("precision : " + precision, 200, 250);
+        }
         dessinerCercles();
         dessinerForme();
     }
@@ -211,4 +216,31 @@ function mouseReleased() {
     // Quand l'utilisateur relache la souris, l'ordi calcule les coefficients de
     utilisateurDessine = false;
     skip = Math.PI * 2 / cercles.length;
+}
+
+function mouseWheel(e) {
+    let delta = -e.deltaY;
+    console.log(delta);
+    if (precision == 0) {
+        if (delta > 0) {
+            console.log('deja au max');
+        } else {
+            precision = 500 + delta / 10;
+        }
+    } else if (precision < 20) {
+        precision += delta / 100;
+        if (precision > 500) {
+            precision = 0
+        } else if (precision < 2) {
+            precision = 2;
+        }
+    } else {
+        precision += delta / 10;
+        if (precision > 500) {
+            precision = 0
+        }
+    }
+
+    console.log(precision);
+    shape = [];
 }
