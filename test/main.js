@@ -10,8 +10,11 @@ var DEMI_HAUTEUR;
 
 var cercles = [];
 
+var précisionss = 10;
+var skip;
+
 function enregistrerDessin() {
-    if ((positions[positions.length - 1].x - mouseX) ^ 2 > 10) {
+    if ((positions[positions.length - 1].x - mouseX) ^ 2 > 4) {
         text("user is moving", 200, 250);
         positions.push({
             x: mouseX,
@@ -36,8 +39,15 @@ function dessinerCercles() {
     var y = DEMI_HAUTEUR;
     var xPrecedent;
     var yPrecedent;
+    var repetitions;
 
-    for (i = 0; i < cercles.length; i++) {
+    if (cercles.length > precision) {
+        repetitions = precision;
+    } else {
+        repetitions = cercles.length;
+    }
+
+    for (i = 0; i < repetitions; i++) {
         // Les x et y précédents sont stockés dans une variable.
         xPrecedent = x;
         yPrecedent = y;
@@ -48,7 +58,7 @@ function dessinerCercles() {
 
         // On dessine enfin le cercle et son rayon
         noFill();
-        stroke(255);
+        stroke(120);
         circle(xPrecedent, yPrecedent, 2 * cercles[i].rayon);
         stroke(cercles[i].red, cercles[i].green, cercles[i].blue);
         line(xPrecedent, yPrecedent, x, y);
@@ -59,8 +69,13 @@ function dessinerCercles() {
         y: y
     });
 
-    temps -= 0.05;
-    if (temps < Math.PI * -4) {
+    if (skip != 0) {
+        temps += skip;
+    } else {
+        temps += 0.05;
+    }
+
+    if (temps > Math.PI * 4) {
         shape = [];
         temps = 0;
     }
@@ -78,10 +93,6 @@ function calculerCercles() {
     console.log(positions);
     temps = 0;
     forme = [];
-    // TODO: On en est là.
-    // Coder la fonction qui calcule les paramètres de chaque cercle,
-    // dans le plan complexe de préférence (ne pas séparer les x des y),
-    // et remplir avec ça le tableau "cercles".
 
     cercles = transformeeDeFourier(positions);
 }
@@ -98,8 +109,8 @@ function transformeeDeFourier(x) {
         var im = 0;
         for (j = 0; j < x.length; j++) {
             var phi = (TWO_PI * i * j) / x.length;
-            re += x[j].x * cos(phi) + x[j].y * sin(phi);
-            im += x[j].x * -sin(phi) + x[j].y * cos(phi);
+            re += (x[j].x - document.body.clientWidth/2) * cos(phi) + (x[j].y - document.body.clientHeight/2) * sin(phi);
+            im += (x[j].x - document.body.clientWidth/2) * -sin(phi) + (x[j].y - document.body.clientHeight/2) * cos(phi);
         }
         re = re / x.length;
         im = im / x.length;
@@ -110,13 +121,13 @@ function transformeeDeFourier(x) {
         nouveauxCercles[i] = {
             rayon: r,
             frequence: freq,
-            phase:phase,
+            phase: phase,
             red: random(0, 1) * 255,
             green: random(0, 1) * 255,
             blue: random(0, 1) * 255
         };
     }
-    nouveauxCercles.sort((a,b) => b.rayon - a.rayon);
+    nouveauxCercles.sort((a, b) => b.rayon - a.rayon);
     return nouveauxCercles;
 }
 
@@ -129,6 +140,8 @@ function setup() {
     fill(255);
 
     temps = 0;
+    precision = 10;
+    skip = 0;
 
     DEMI_LARGEUR = document.body.clientWidth / 2;
     DEMI_HAUTEUR = document.body.clientHeight / 2;
@@ -145,12 +158,12 @@ function setup() {
         },
         {
             rayon: 50,
-            frequence: 2,
+            frequence: 3,
             phase: Math.PI / 2,
             red: random(0, 1) * 255,
             green: random(0, 1) * 255,
             blue: random(0, 1) * 255
-        }
+        },
     ];
 }
 
@@ -181,6 +194,8 @@ function mousePressed() {
             y: mouseY
         }
     ];
+    shape = [];
+    temps = 0;
 }
 
 function touchStarted() {
@@ -195,4 +210,5 @@ function mouseReleased() {
     calculerCercles();
     // Quand l'utilisateur relache la souris, l'ordi calcule les coefficients de
     utilisateurDessine = false;
+    skip = Math.PI * 2 / cercles.length;
 }
