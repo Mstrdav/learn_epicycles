@@ -1,5 +1,7 @@
 // VARIABLES
-var utilisateurDessine;
+var utilisateurDessine; // Booléen qui indique si l'utilisateur est en train de dessiner ou pas
+var recentrer; // Booléen qui indique si le dessin doit être recentré ou pas
+
 var x, y;
 var positions = [];
 var temps;
@@ -12,6 +14,7 @@ var cercles = [];
 
 var précision;
 var skip;
+
 
 function enregistrerDessin() {
     if ((pmouseX - mouseX) ^ 2 > 4) {
@@ -82,19 +85,25 @@ function dessinerCercles() {
 }
 
 function dessinerForme() {
+    strokeWeight(2);
     beginShape();
     for (i = 0; i < shape.length; i++) {
         vertex(shape[i].x, shape[i].y);
     }
     endShape();
+    strokeWeight(1);
 }
 
 function calculerCercles() {
-    console.log(positions);
     temps = 0;
     forme = [];
 
     cercles = transformeeDeFourier(positions);
+    skip = Math.PI * 2 / cercles.length;
+    
+    if(recentrer) {
+        cercles = cercles.filter(cercle => cercle.frequence != 0);
+    }
 }
 
 // Calcul des cercles via la transformée de Fourier. Fonction écrite à l'aide de The CodingTrain.
@@ -136,6 +145,8 @@ function setup() {
     // La page est vide, on crée donc un canva qui a la taille de la page.
     createCanvas(document.body.clientWidth, document.body.clientHeight);
     utilisateurDessine = false;
+    recentrer = true;
+    
     noStroke();
     fill(255);
 
@@ -174,15 +185,15 @@ function draw() {
     fill(255);
 
     if (utilisateurDessine) {
-        text("user is drawing", 200, 200);
+        text("user is drawing", 100, 100);
         enregistrerDessin();
 
     } else {
-        text("user is not drawing", 200, 200);
+        text("user is not drawing", 100, 100);
         if (precision == 0) {
-            text("precision maximum", 200, 250);
+            text("precision maximum", 100, 150);
         } else {
-            text("precision : " + precision, 200, 250);
+            text("precision : " + precision, 100, 150);
         }
         dessinerCercles();
         dessinerForme();
@@ -215,7 +226,6 @@ function mouseReleased() {
     calculerCercles();
     // Quand l'utilisateur relache la souris, l'ordi calcule les coefficients de
     utilisateurDessine = false;
-    skip = Math.PI * 2 / cercles.length;
 }
 
 function mouseWheel(e) {
