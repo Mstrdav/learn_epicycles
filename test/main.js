@@ -14,15 +14,24 @@ var cercles = [];
 
 var précision;
 var skip;
+var vitesse;
 
 
 function enregistrerDessin() {
     if ((pmouseX - mouseX) ^ 2 > 4) {
-        text("user is moving", 200, 250);
+        text("user is moving", 100, 150);
         positions.push({
             x: mouseX,
             y: mouseY
         });
+    }
+    
+    if(positions.length > 5) {
+        bibli.classList = "";
+        boutonCharger.classList = "";
+        boutonAvion.classList = "";
+        boutonFlocon.classList = "";
+        boutonCoeur.classList = "";
     }
 
     for (i = 1; i < positions.length; i++) {
@@ -73,12 +82,12 @@ function dessinerCercles() {
     });
 
     if (skip != 0) {
-        temps += skip;
+        temps += vitesse * skip;
     } else {
         temps += 0.05;
     }
 
-    if (temps > Math.PI * 4) {
+    if (Math.abs(temps) > Math.PI * 4) {
         shape = [];
         temps = 0;
     }
@@ -86,6 +95,7 @@ function dessinerCercles() {
 
 function dessinerForme() {
     strokeWeight(2);
+    stroke(255, 100, 100);
     beginShape();
     for (i = 0; i < shape.length; i++) {
         vertex(shape[i].x, shape[i].y);
@@ -95,13 +105,12 @@ function dessinerForme() {
 }
 
 function calculerCercles() {
+    shape = [];
     temps = 0;
-    forme = [];
-
     cercles = transformeeDeFourier(positions);
     skip = Math.PI * 2 / cercles.length;
-    
-    if(recentrer) {
+
+    if (recentrer) {
         cercles = cercles.filter(cercle => cercle.frequence != 0);
     }
 }
@@ -145,14 +154,15 @@ function setup() {
     // La page est vide, on crée donc un canva qui a la taille de la page.
     createCanvas(document.body.clientWidth, document.body.clientHeight);
     utilisateurDessine = false;
-    recentrer = true;
-    
+    recentrer = false;
+
     noStroke();
     fill(255);
 
     temps = 0;
     precision = 50;
     skip = 0;
+    vitesse = 1;
 
     DEMI_LARGEUR = document.body.clientWidth / 2;
     DEMI_HAUTEUR = document.body.clientHeight / 2;
@@ -169,7 +179,7 @@ function setup() {
         },
         {
             rayon: 50,
-            frequence: 3,
+            frequence: 2,
             phase: Math.PI / 2,
             red: random(0, 1) * 255,
             green: random(0, 1) * 255,
@@ -185,15 +195,20 @@ function draw() {
     fill(255);
 
     if (utilisateurDessine) {
-        text("user is drawing", 100, 100);
+        text("L'utilisateur dessine...", 100, 100);
         enregistrerDessin();
 
     } else {
-        text("user is not drawing", 100, 100);
+        text("L'ordinateur dessine...", 100, 100);
         if (precision == 0) {
-            text("precision maximum", 100, 150);
+            text("* précision maximum", 100, 120);
         } else {
-            text("precision : " + precision, 100, 150);
+            text("* précision : " + precision, 100, 120);
+        }
+        if (vitesse == 0) {
+            text("* pause", 100, 140);
+        } else {
+            text("* vitesse : " + vitesse, 100, 140);
         }
         dessinerCercles();
         dessinerForme();
@@ -210,8 +225,6 @@ function mousePressed() {
             y: mouseY
         }
     ];
-    shape = [];
-    temps = 0;
 }
 
 function touchStarted() {
@@ -223,34 +236,53 @@ function touchEnded() {
 }
 
 function mouseReleased() {
-    calculerCercles();
-    // Quand l'utilisateur relache la souris, l'ordi calcule les coefficients de
+    if (positions.length > 5) {
+        calculerCercles();
+    }
+    // Quand l'utilisateur relache la souris, l'ordi calcule les coefficients des cercles
     utilisateurDessine = false;
 }
 
 function mouseWheel(e) {
     let delta = -e.deltaY;
-    console.log(delta);
-    if (precision == 0) {
+
+    if (keyIsPressed) {
+        console.log(key);
         if (delta > 0) {
-            console.log('deja au max');
+            vitesse += 1;
         } else {
-            precision = 500 + delta / 10;
-        }
-    } else if (precision < 20) {
-        precision += delta / 100;
-        if (precision > 500) {
-            precision = 0
-        } else if (precision < 2) {
-            precision = 2;
+            vitesse -= 1;
+            if (vitesse < 0) {
+                vitess = 0;
+            }
         }
     } else {
-        precision += delta / 10;
-        if (precision > 500) {
-            precision = 0
-        }
-    }
+        if (precision == 0) {
+            if (delta > 0) {
 
-    console.log(precision);
-    shape = [];
+            } else {
+                precision = 500 - 10;
+            }
+        } else if (precision < 20) {
+            if (delta > 0) {
+                precision += 1;
+            } else {
+                precision -= 1;
+            }
+            if (precision < 2) {
+                precision = 2;
+            }
+        } else {
+            if (delta > 0) {
+                precision += 10;
+            } else {
+                precision -= 10;
+            }
+            if (precision > 500) {
+                precision = 0
+            }
+        }
+        temps = 0;
+        shape = [];
+    }
 }

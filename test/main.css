@@ -1,10 +1,124 @@
 body {
     width: 100%;
     height: 100vh;
+    overflow: hidden;
 }
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+#menu {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    
+    background: #333;
+    padding: 10px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: auto;
+}
+
+#bibliotheque {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    
+    background: #333;
+    padding: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: auto;
+    
+    transition: transform 0.3s ease;
+}
+
+#bibliotheque.visible {
+    transform: translate(-50%, 0);
+    
+    transition: transform 0.3s ease;
+}
+
+aside img {
+    margin: 10px;
+    padding: 10px;
+    width: 65px;
+    height: 65px;
+    border-radius: 20px;
+    filter: invert(1);
+    cursor: pointer;
+    
+    transition: all 0.4s ease;
+}
+
+aside img.active {
+    background: rgb(0, 155, 155);
+    box-shadow: 6px 6px 2px 1px rgba(0, 0, 255, .2);
+    
+    transition: all 0.4s ease;
+}
+
+#nuage {
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    background: white;
+    
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    transition: opacity 0.3s ease;
+}
+
+#nuage.visible {
+    opacity: 0.5;
+    
+    transition: opacity 0.3s ease;
+}
+
+article {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    height: 80%;
+    width: 60%;
+    border-radius: 30px;
+    
+    background: #333;
+    color: white;
+    
+    padding: 30px;
+    
+    overflow: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    
+    display: none;
+}
+
+article::-webkit-scrollbar {
+    width: 0;
+}
+
+article.visible {
+    display: block;
 }
