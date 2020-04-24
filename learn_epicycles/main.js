@@ -16,6 +16,7 @@ var précision;
 var skip;
 var vitesse;
 
+var formula = '';
 
 function enregistrerDessin() {
     if ((pmouseX - mouseX) ^ 2 > 4) {
@@ -113,6 +114,8 @@ function calculerCercles() {
     if (recentrer) {
         cercles = cercles.filter(cercle => cercle.frequence != 0);
     }
+    
+    formConteneur.innerHTML = formula;
 }
 
 // Calcul des cercles via la transformée de Fourier. Fonction écrite à l'aide de The CodingTrain.
@@ -121,6 +124,7 @@ function calculerCercles() {
 function transformeeDeFourier(x) {
     // On initialise la valeur de retour
     let nouveauxCercles = [];
+    formula = '';
 
     for (i = 0; i < x.length; i++) {
         var re = 0;
@@ -144,6 +148,11 @@ function transformeeDeFourier(x) {
             green: random(0, 1) * 255,
             blue: random(0, 1) * 255
         };
+        if (formula == '') {
+            formula += r + '*e^[iπ*(t+' + phase +')*' + freq + ']'
+        } else {
+            formula += '+' + r + '*e^[iπ*(t+' + phase +')*' + freq + ']'
+        }
     }
     nouveauxCercles.sort((a, b) => b.rayon - a.rayon);
     return nouveauxCercles;

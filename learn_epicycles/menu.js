@@ -1,6 +1,7 @@
 var boutonCentrer = document.getElementById('btnCentrer');
 var boutonCharger = document.getElementById('btnCharger');
 var boutonAide = document.getElementById('btnAide');
+var boutonFormule = document.getElementById('btnFormule');
 
 var aide = document.getElementById('fenetreAide');
 var nuage = document.getElementById('nuage');
@@ -9,6 +10,22 @@ var bibli = document.getElementById('bibliotheque');
 var boutonAvion = document.getElementById('btnAvion');
 var boutonFlocon = document.getElementById('btnFlocon');
 var boutonCoeur = document.getElementById('btnCoeur');
+
+var formule = document.getElementById('formule');
+var btnCopier = document.getElementById('btnCopier');
+var formConteneur = document.getElementById('formuleConteneur');
+
+btnCopier.addEventListener('click', function () {
+    console.log('Copier');
+    console.log(formula);
+    navigator.clipboard.writeText(formula);
+});
+
+formConteneur.addEventListener('click', function () {
+    console.log('Copier');
+    console.log(formula);
+    navigator.clipboard.writeText(formula);
+});
 
 boutonCentrer.addEventListener('click', function () {
     console.log('Centrer');
@@ -29,9 +46,24 @@ boutonCharger.addEventListener('click', function() {
     aide.classList = "";
     boutonAide.classList = "";
     nuage.classList = "";
+    formule.classList = "";
+    boutonFormule.classList = "";
     
     bibli.classList.toggle('visible');
     boutonCharger.classList.toggle('active');
+});
+
+boutonFormule.addEventListener('click', function() {
+    console.log('formule');
+    
+    aide.classList = "";
+    boutonAide.classList = "";
+    nuage.classList = "";
+    bibli.classList = "";
+    boutonCharger.classList = "";
+    
+    formule.classList.toggle('visible');
+    boutonFormule.classList.toggle('active');
 });
 
 boutonAide.addEventListener('click', function() {
@@ -39,6 +71,8 @@ boutonAide.addEventListener('click', function() {
     
     bibli.classList = "";
     boutonCharger.classList = "";
+    formule.classList = "";
+    boutonFormule.classList = "";
     
     aide.classList.toggle('visible');
     nuage.classList.toggle('visible');
