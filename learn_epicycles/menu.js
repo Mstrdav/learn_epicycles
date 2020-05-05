@@ -2,6 +2,7 @@ var boutonCentrer = document.getElementById('btnCentrer');
 var boutonCharger = document.getElementById('btnCharger');
 var boutonAide = document.getElementById('btnAide');
 var boutonFormule = document.getElementById('btnFormule');
+var boutonTheme = document.getElementById('btnTheme');
 
 var aide = document.getElementById('fenetreAide');
 var nuage = document.getElementById('nuage');
@@ -64,6 +65,20 @@ boutonFormule.addEventListener('click', function() {
     
     formule.classList.toggle('visible');
     boutonFormule.classList.toggle('active');
+});
+
+boutonTheme.addEventListener('click', function () {
+    console.log('theme');
+    
+    if(boutonTheme.classList == 'active') {
+        textColor = 255;
+        bgColor = 20;
+    } else {
+        textColor = 20;
+        bgColor = 240;
+    }
+
+    boutonTheme.classList.toggle('active');
 });
 
 boutonAide.addEventListener('click', function() {

@@ -18,6 +18,9 @@ var vitesse;
 
 var formula = '';
 
+var bgColor;
+var textColor;
+
 function enregistrerDessin() {
     if ((pmouseX - mouseX) ^ 2 > 4) {
         text("user is moving", 100, 150);
@@ -41,7 +44,7 @@ function enregistrerDessin() {
         x = positions[i].x;
         y = positions[i].y;
 
-        stroke(255);
+        stroke(textColor);
         line(xPrecedent, yPrecedent, x, y);
         noStroke();
     }
@@ -172,6 +175,9 @@ function setup() {
     precision = 50;
     skip = 0;
     vitesse = 1;
+    
+    bgColor = 20;
+    textColor = 255;
 
     DEMI_LARGEUR = document.body.clientWidth / 2;
     DEMI_HAUTEUR = document.body.clientHeight / 2;
@@ -199,9 +205,9 @@ function setup() {
 
 // DRAW
 function draw() {
-    background(20);
+    background(bgColor);
     noStroke();
-    fill(255);
+    fill(textColor);
 
     if (utilisateurDessine) {
         text("L'utilisateur dessine...", 100, 100);
