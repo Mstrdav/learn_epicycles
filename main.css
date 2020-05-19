@@ -1,199 +1,85 @@
-body {
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-}
-
 * {
+    box-sizing: border-box;
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    -ms-overflow-style: none;
 }
 
-#menu {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    
-    background: #333;
-    padding: 10px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    height: auto;
-}
-
-#bibliotheque {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 100%);
-    
-    background: #333;
-    padding: 10px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    width: auto;
-    
-    transition: transform 0.3s ease;
-}
-
-#bibliotheque.visible {
-    transform: translate(-50%, 0);
-    
-    transition: transform 0.3s ease;
-}
-
-#formule {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 100%);
-    
-    background: #333;
-    padding: 5px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    width: auto;
-    
-    transition: transform 0.3s ease;
-}
-
-#formule.visible {
-    transform: translate(-50%, 0);
-    
-    transition: transform 0.3s ease;
-}
-
-aside img {
-    margin: 10px;
-    padding: 10px;
-    width: 65px;
-    height: 65px;
-    border-radius: 20px;
-    filter: invert(1);
-    cursor: pointer;
-    
-    transition: all 0.4s ease;
-}
-
-aside img.active {
-    background: rgb(0, 155, 155);
-    box-shadow: 6px 6px 2px 1px rgba(0, 0, 255, .2);
-    
-    transition: all 0.4s ease;
-}
-
-#formule #btnCopier {
-    margin: 5px 0 5px 5px;
-    height: 50px;
-    width: 50px;
-    background: #DfDfDf;
-    border-radius: 12px;
-    border: 1px solid rgb(0, 155, 155);
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-}
-
-#formuleConteneur {
-    margin: 5px 5px 5px 0;
-    padding: 15px;
-    border-radius: 0;
-    border-bottom-right-radius: 12px;
-    border-top-right-radius: 12px;
-    cursor: pointer;
-    overflow: hidden;
-    width: 80vw;
-    height: 50px;
-    
-    white-space: nowrap;
-    
-    background: #000;
-    color: white;
-}
-
-#nuage {
-    width: 100vw;
-    height: 100vh;
-    opacity: 0;
-    background: black;
-    
-    z-index: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    
-    transition: opacity 0.3s ease;
-}
-
-#nuage.visible {
-    opacity: 0.8;
-    
-    transition: opacity 0.5s ease;
-}
-
-article {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    max-height: 80%;
-    width: 60%;
-    border-radius: 30px;
-    
-    background: #333;
-    color: white;
-    
-    padding: 60px 40px;
-    line-height: 120%;
-    
-    overflow: scroll;
-    overflow-x: hidden;
-    scrollbar-width: none;    
-    
-    z-index: 0;
-    opacity: 0;
+*::-webkit-scrollbar {
     display: none;
-    transition: opacity 0.4s ease;
 }
 
-article::-webkit-scrollbar {
-    width: 0;
+header {
+    background: black;
+    height: 100%;
+    width: 100%;
 }
 
-article.visible {
-    z-index: 100;
-    opacity: 1;
-    display: inherit;
+video {
+    height: 100vh;
+    opacity: 0.3;
+    object-fit: cover;
+}
+
+h1 {
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    transform: translate(0%, -50%);
+
+    color: white;
+    border-bottom: 5px solid rgb(255, 100, 100);
+    font-size: 200%;
+    font-family: 'Poppins';
+}
+
+h2 {
+    position: absolute;
+    top: 55%;
+    left: 10%;
+    transform: translate(0%, -50%);
     
-    transition: opacity 0.6s ease;
+    color: #DDD;
+    font-family: 'Roboto';
+    max-width: 800px;
+    padding-right: 10%;
 }
 
-article p, article ul li {
-    margin: 10px 0;
+#button {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background: rgb(255, 100, 100);
+    padding: 15px;
+    border-radius: 7px;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+    box-shadow: 1px 1px 2px;
 }
 
-li {
-    list-style-type: none;
+#button:hover {
+    animation: right 0.4s;
 }
 
-.b {
-    font-weight: bold;
-    color: rgb(255, 120, 120);
+@keyframes right {
+    0% {
+        right: 15px;
+    }
+    
+    30% {
+        right: 20px;
+    }
+
+    60% {
+        right: 10px;
+    }
+
+    90% {
+        right: 16px;
+    }
+
+    100% {
+        right: 15px;
+    }
 }
